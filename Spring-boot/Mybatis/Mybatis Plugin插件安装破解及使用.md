@@ -22,8 +22,8 @@
 
 ## 破解版本安装
 ### 2018年2月更新
-**IDEA 2017.3可用**：提供一个网上比较多的一个版本V3.21版本，下载资源里面有个已整合版直接解压放入C:\Users\你的用户名\.IntelliJIdea2017.3\config\plugins 这个文件夹即可 
+**IDEA 2017.3可用**：提供一个网上比较多的一个版本V3.21版本，下载资源里面有个已整合版直接解压放入C:\Users\你的用户名\.IntelliJIdea2017.3\config\plugins 这个文件夹即可。 
 [CSDN下载](http://download.csdn.net/download/u011410529/10238317)
 
-**IDEA 2018.1可用**：但是最新版2018.1不可以使用上面的3.21版本，故提供一个2018.1可用的版本，如果你的IDEA版本大于2018.1，请下载这个版本，谢谢啦。将下载里面的mybatis_plus文件夹放到C:\Users\你的用户名\.IntelliJIdea2018.1\config\plugins文件夹即可 
+**IDEA 2018.1可用**：但是最新版2018.1不可以使用上面的3.21版本，故提供一个2018.1可用的版本，如果你的IDEA版本大于2018.1，请下载这个版本，谢谢啦。将下载里面的mybatis_plus文件夹放到C:\Users\你的用户名\.IntelliJIdea2018.1\config\plugins文件夹即可。 
 [CSDN下载](https://download.csdn.net/download/u011410529/10338637)
