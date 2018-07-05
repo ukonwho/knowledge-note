@@ -1,3 +1,3 @@
-[TypeScript 2.9 (May 31, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/05/31/announcing-typescript-2-9/)
-[TypeScript Handbook 中文版 - Published with GitBook](https://zhongsp.gitbooks.io/typescript-handbook/content/)
-[TypeScript Handbook 中文版 - Github](https://github.com/zhongsp/TypeScript)
+- [TypeScript 2.9 (May 31, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/05/31/announcing-typescript-2-9/)
+- [TypeScript Handbook 中文版 - Published with GitBook](https://zhongsp.gitbooks.io/typescript-handbook/content/)
+- [TypeScript Handbook 中文版 - Github](https://github.com/zhongsp/TypeScript)
