@@ -1,0 +1,5 @@
+admin.17shanyuan.com          	59.110.246.46
+v.17shanyuan.com              	59.110.246.46
+ab.17shanyuan.com             	59.110.246.46
+fs.17shanyuan.com             	59.110.246.46
+pms.17shanyuan.com            	47.94.116.53

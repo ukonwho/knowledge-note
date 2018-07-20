@@ -1,0 +1,5 @@
+mail.17shanyuan.com           	42.120.158.76, 42.156.140.99
+shop.17shanyuan.com           	59.110.246.46
+res.17shanyuan.com            	59.110.246.46
+download.17shanyuan.com       	121.9.212.218
+api.17shanyuan.com            	59.110.246.46

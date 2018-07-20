@@ -1,0 +1,2 @@
+maven.baiqishi.com            	112.74.254.168
+work.baiqishi.com             	112.74.159.248
