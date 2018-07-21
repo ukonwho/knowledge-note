@@ -1,2 +1,0 @@
-mail.baiqishi.com             	42.120.158.76, 42.156.140.99
-api.baiqishi.com              	112.74.159.247
