@@ -5,7 +5,6 @@ import datetime
 import binascii
  
 def showTime():
- 
     print datetime.datetime.now().strftime("%H:%M:%S")  
  
 def crack():
@@ -22,9 +21,6 @@ def crack():
  
  
 if __name__ == "__main__":
- 
     showTime()
- 
     crack()
- 
     showTime()
