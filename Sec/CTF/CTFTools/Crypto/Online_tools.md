@@ -1,8 +1,0 @@
-1. [Ook编码](https://www.splitbrain.org/services/ook)
-2. [摩斯、凯撒、中文凯撒、栅栏、维吉尼亚、替代、置换、MD5加密等](https://www.ctftools.com/down/down/passwd/)
-3. [base64](http://base64.xpcha.com/)
-4. [Unicode编码](http://tool.chinaz.com/tools/unicode.aspx)
-5. [Url编码](http://tool.chinaz.com/tools/urlencode.aspx)
-6. [CMD5](http://www.cmd5.com/)
-7. [SOMD5](https://somd5.com/)
-8. [查MD5](http://www.chamd5.org/)
