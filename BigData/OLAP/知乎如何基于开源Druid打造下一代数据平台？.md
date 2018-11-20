@@ -45,3 +45,7 @@ Druid 支持低延时的数据摄取，灵活的数据探索分析，高性能�
 外部组件
 * Deep Storage：用于存储 Segment 文件供 Historical 节点下载。Deep Storage 不属于 Druid 内部组件，用户可根据系统规模来自定义配置。单节点可用本地磁盘，分布式可用 HDFS。
 * Metastore Storage：用于存储 Druid 的各种元数据信息，属于 Druid 的外部依赖组件，生产环境中可用 MySQL。
+
+## 平台的演进
+
+
