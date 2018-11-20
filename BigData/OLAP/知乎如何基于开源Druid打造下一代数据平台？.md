@@ -29,3 +29,18 @@ Druid 是一种能对历史和实时数据提供亚秒级别的查询的数据�
 Druid 支持低延时的数据摄取，灵活的数据探索分析，高性能的数据聚合，简便的水平扩展。适用于数据量大，可扩展能力要求高的分析型查询系统。
 ![](/assets/知乎如何基于开源Druid打造下一代数据平台_图1-3.jpg)
 
+#### Druid 数据结构和架构简介
+
+**Druid 数据结构**
+* DataSource：Druid 的基本数据结构，在逻辑上可以理解为关系型数据库中的表。它包含时间、维度和指标三列。
+* Segment：Druid 用来存储索引的数据格式，不同的索引按照时间跨度来分区，分区可通过 segmentGranularity（划分索引的时间粒度）进行配置。
+
+**查询服务的相关组件**
+内部组件
+* Historical：用于加载和提供 Segment 文件供数据查询。
+* Broker：提供数据查询服务，通过路由查询请求到对应的 Historical 节点并获得数据，合并数据后返回给调用方。
+* Router：当 Druid 集群到达 TB 级别的规模时才需要启用的节点，主要负责将查询请求路由到不同的 Broker 节点上。
+
+外部组件
+* Deep Storage：用于存储 Segment 文件供 Historical 节点下载。Deep Storage 不属于 Druid 内部组件，用户可根据系统规模来自定义配置。单节点可用本地磁盘，分布式可用 HDFS。
+* Metastore Storage：用于存储 Druid 的各种元数据信息，属于 Druid 的外部依赖组件，生产环境中可用 MySQL。
