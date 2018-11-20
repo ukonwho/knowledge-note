@@ -84,3 +84,4 @@ Druid 支持低延时的数据摄取，灵活的数据探索分析，高性能�
 
 #### 一个 Broker 处理一个请求
 在调研了 Druid 执行原理以后，我们发现一个查询请求只会被 Router 路由到一个 Broker 节点，经由 Broker 节点去 Historical 节点上查找目标数据在 Deep Storage 的存储位置，最后返回的数据也是经过 Broker 节点来合并返回结果。查询的时间跨度越长，对 Broker 的压力也越大，内存消耗越多。
+
