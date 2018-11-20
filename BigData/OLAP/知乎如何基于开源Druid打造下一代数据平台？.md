@@ -75,3 +75,5 @@ Druid 支持低延时的数据摄取，灵活的数据探索分析，高性能�
 1. 要实现一次性获得缓存的所有时间跨度，我们需要在每次缓存 Druid 查询结果后，再缓存查询请求和它覆盖的时间跨度，在 Redis Key-Value 规则上，我们先把查询体（Request）剔除时间跨度，生成一个时间无关的查询体（IntervalExcludedRequest）作为缓存的 key；提取查询粒度（Granularity），把剔除出来的时间跨度按粒度分隔开（Set）作为 value。
 2. 要实现一次性读出所有缓存结果，通过 Redis 的 MGET 获得 IntervalExcludedRequest 对应的各个时间戳。
 3. 判断当前请求的所有单位时间跨度是否命中缓存，命中的结果会被直接返回。优化后缓存机制如下图所示：
+![](/assets/知乎如何基于开源Druid打造下一代数据平台_图1-6.jpg)
+
