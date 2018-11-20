@@ -84,3 +84,31 @@ Druid 查询采用 100% SQL 的 Web 化配置。Druid 原生查询是 DSL，类�
 2、MySQL 热迁移实践
 ![](/assets/Druid 在滴滴应用_图3-5.jpg)
 
+我们主要使用 Kafka-indexing-service 作为实时数据写入方式。在实时任务执行过程中，会元数据不断更新到 MySQL 中的。要想对 Mysql 进行迁移，首先需要保证元数据在迁移过程中不变，因此首先要了解该数据写入流程。在 Kafka-indexing-service 的实时任务执行过程中，元数据更新主要来自于实时任务执行状态的变化和数据消费相关的部分 API 调用。实时任务的生命周期包括读取数据和发布数据两个过程，读取数据是从 kafka 读取，在内存中建立增量索引; 发布数据过程，就是把实时节点消费的数据下推到历史节点，其实是通过首先写到 HDFS，然后再由历史节点加载。只有在实时任务状态发生改变时，才会产生元数据更新操作。因此，我们开发了实时任务状态冻结 API，把所有实时任务的生命周期都冻结在数据 reading 的状态，此时进行 MySQL 迁移，迁移完成之后，重新启动 Overlord(一个管理实时任务的节点，所有实时任务的数据状态变化都由 Overlord 触发)，实时任务就会继续进行生命周期迭代。
+　　
+3、HDFS 迁移实践
+![](/assets/Druid 在滴滴应用_图3-6.jpg)
+
+刚才提到了 HDFS 在数据发布流程中的作用，数据发布就是指实时节点消费到的数据下推到历史节点的过程。下推的方式就是先推到 HDFS，再由历史节点从 HDFS 拉取。Master 节点会告诉历史节点那些数据是需要其拉取的，而从哪里拉取则是从元数据存储中获得的，我们需要做的是保证历史节点可以从两个 HDFS 读取数据，同时滚动重启实时节点，保证增量数据写到新的 HDFS，历史节点从新的 HDFS 拉取数据。对于存量数据我们只需要更改元数据里历史数据的路径，就可以无缝替换原有 HDFS。
+　　
+接下来简单介绍 Druid 平台化建设性能优化部分的工作。首先简单介绍下 Druid 的三种数据写入方式：
+　　
+1、Standalone Realtime Node
+　　
+该模式属于单机数据消费，失败后无法恢复，且由于其内部实现机制，该模式无法实现 HA，这种方式官方也不推荐使用。
+　　
+2、Tranquility + indexing-service
+　　
+该方式主要通过 Tranquility 进程消费数据，把数据主动 push 给 indexing- service 服务，优势是 Tranquility 进程可以帮助管理数据副本、数据实时任务以及生命周期等; 其缺点是如果所有副本全部任务失败，无法恢复数据; 必须设置数据迟到容忍窗口，该窗口与任务时长挂钩，由于任务时长有限，因此很难容忍长时间数据迟到。
+　　
+3、Kafka-indexing-service
+　　
+这是 Druid 比较新的写入方式，其优势主要体现在数据可靠性及任务恢复方面，弥补了前两种方式的不足。其缺点是数据消费过于依赖 Overlord 服务，Overlord 单机性能将会成为集群规模瓶颈 ; 由于 Segment 与 Kafka topic 的 partition 关联，因此容易造成元数据过度膨胀，进而引发性能问题。最终，我们选择 Kafka-indexing-service 模式，并开始解决该模式存在的问题。
+　　
+该写入方式面临的问题经过定位主要有以下三个：一是 MySQL 查询性能问题， Overlord 提供的多个 API 需要直接对 MySQL 进行操作，所以 MySQL 查询性能直接影响 Overlord 并发水平; 二是 Druid 里所有数据都是 JSON 存储格式，反序列化非常耗时; 三是 Druid 中实时任务状态都通过 ZK 发布，Overlord 会监听 ZK 上面的节点，而这些监听器的回调线程执行函数中会涉及一些 MySQL 操作，当 MySQL 比较繁忙时， ZK watch 回调单线程模型导致事件处理需要排队。
+　　
+针对查询性能瓶颈，我们主要针对 Druid 元数据存储索引进行了优化。通过对 Segment 定时 Merge，合理设置数据生命周期来合并精简元数据; 对 Druid 数据库连接池 DBCP2 参数进行优化。针对反序列化与 watch 回调问题，我们主要对 Druid 任务管理体系进行了较大修改，进行了 Overlord Federation 改造，引入 namespace 概念，每一个 namespace 下的任务又单独的 Overlord 管理。这样增加 Overlord 水平扩展能力，同时亦可做 Overlord 级别的资源隔离。
+
+# 四、展望
+
+目前 Druid 数据消费能力依赖 Kafka topic 的 partition，未来我们希望引入流计算引擎提升单 partition 消费能力，解耦对 Kafka topic partition 的依赖，对数据消费和数据处理进行不同的并发度配置。其次，Overlord 大量服务涉及对 MySQL 的直接操作，易导致单机性能瓶颈，后续将会对高并发服务进行内存化改造。数据下推到 HDFS 之后，Coordinator(Druid 里数据分配角色) 决定数据的加载位置，这是一个单线程运行模型，当 Overload 水平扩展之后，每个时间点产生的 Segment 数量会有很大提升，Coordinator 任务处理单线程模型需要优化。最后， 我们希望把 Druid 部分组件 On-yarn，进而提升资源利用率并简化运维操作。
