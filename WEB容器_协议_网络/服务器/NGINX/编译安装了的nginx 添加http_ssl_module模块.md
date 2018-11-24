@@ -26,3 +26,18 @@ configure arguments: –prefix=/usr/local/nginx
 [root@zabbix nginx-1.10.2]# make
 ```
 **这一步千万不能 make install ；不然会把之前已经安装的nginx 覆盖掉**
+
+## 3、需要替换nginx二进制文件,先停止掉nginx进程；备份一下原来的启动脚本。
+```
+cp /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.old;
+
+cp objs/nginx /usr/local/nginx/sbin/nginx;
+
+```
+
+## 4、查看nginx的模块，看下是否把需要的模块编译进去了
+```
+nginx -V
+```
+
+## 5、最后重新启动nginx
