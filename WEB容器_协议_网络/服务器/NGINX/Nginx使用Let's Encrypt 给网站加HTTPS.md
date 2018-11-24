@@ -133,6 +133,26 @@ ssl_dhparam 通过下面命令生成:
 $ mkdir /etc/nginx/ssl
 $ openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
 ```
+（可选）ssl_trusted_certificate 需要下载 Let's Encrypt 的 Root Certificates，不过根据 Nginx 官方文档 所说，ssl_certificate 如果已经包含了 intermediates 就不再需要提供 ssl_trusted_certificate，这一步可以省略：
+```
+$ cd /etc/letsencrypt/live/example.com
+$ wget https://letsencrypt.org/certs/isrgrootx1.pem
+$ mv isrgrootx1.pem root.pem
+$ cat root.pem chain.pem > root_ca_cert_plus_intermediates
+```
+
+resolver 的作用是 “resolve names of upstream servers into addresses”， 在這個配置中，resolver 是用來解析 OCSP 服務器的域名的，建议填写你的 VPS 提供商的 DNS 服务器，例如我的 VPN 在 Linode，DNS服务器填写：
+
+resolver 106.187.90.5 106.187.93.5;
+
+Nginx 配置完成后，重启后，用浏览器测试是否一切正常。
+```
+$ /usr/local/nginx/sbin/nginx -s reload
+```
+这时候你的站点应该默认强制使用了 HTTPS，并且浏览器地址栏左边会有绿色的小锁。
+
+## 自动化定期更新证书
+Let's Encrypt 证书有效期是3个月，我们可以通过 certbot 来自动化续期。
 
 
 
