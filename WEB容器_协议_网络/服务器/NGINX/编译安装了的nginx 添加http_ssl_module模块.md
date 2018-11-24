@@ -1,4 +1,4 @@
-# 给已经编译安装了的nginx 添加http_ssl_module和http_v2_module模块方法（让Web服务器支持SSL和http2）
+# 编译安装了的nginx 添加http_ssl_module模块
 
 ## 1、看下编译安装nginx的时候，都编译安装的哪些模块。
 
