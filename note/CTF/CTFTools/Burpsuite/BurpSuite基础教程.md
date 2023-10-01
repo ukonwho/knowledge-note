@@ -1,8 +1,0 @@
-- [1.burpsuite基本介绍及环境配置](http://bbs.ichunqiu.com/thread-15805-1-1.html)
-- [2.Proxy代理模块一](http://bbs.ichunqiu.com/thread-15806-1-1.html)
-- [3.Proxy代理模块二](http://bbs.ichunqiu.com/thread-15807-1-1.html)
-- [4.Spider模块一](http://bbs.ichunqiu.com/thread-15864-1-1.html)
-- [5.Spider模块二](http://bbs.ichunqiu.com/thread-15865-1-1.html)
-- [6.Scaner模块一](http://bbs.ichunqiu.com/thread-16258-1-1.html)
-- [7.Scaner模块二](http://bbs.ichunqiu.com/thread-16260-1-1.html)
-- [8.Intruder模块](https://bbs.ichunqiu.com/thread-16539-1-1.html)
